@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.11"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "socialpie",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zunaty/socialpie.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zunaty/socialpie/issues"
+  },
+  "homepage": "https://github.com/Zunaty/socialpie#readme"
+}
