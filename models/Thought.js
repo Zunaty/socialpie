@@ -19,8 +19,13 @@ const ReactionSchema = new Schema(
             type: Date,
             default: Date.now
         }
+    },
+    {
+        toJSON: {
+            getters: true
+        }
     }
-)
+);
 
 const ThoughtSchema = new Schema(
     {
