@@ -68,6 +68,10 @@ const thoughtController = {
     deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.id })
         .then(thoughtData => {
+            User.findOneAndDelete(
+                { username: thoughtData.username },
+                { $pull: { thoughts: { _id: req.params.id }}}
+            )
             res.json(thoughtData)
         })
         .catch(err => {

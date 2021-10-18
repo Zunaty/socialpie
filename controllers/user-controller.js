@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
     // Getting all Users - /api/user/
@@ -65,7 +65,22 @@ const userController = {
                 _id: req.params.id
             })
         .then(userData => {
-            res.json(userData);
+            Thought.deleteMany(
+                {
+                    _id: {
+                        $in: userData.thoughts
+                    }
+                }
+            ).then(thoughtdata => {
+                // User.updateMany(
+                //     {
+                //         // $elemMatch
+                //         // $eq
+                //         // Friends
+                //     }
+                // )
+                res.json(thoughtdata);
+            })
         })
         .catch(err => {
             console.log(err);
