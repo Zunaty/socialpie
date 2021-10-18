@@ -1,9 +1,11 @@
 const { User } = require('../models');
 
 const userController = {
-    // Getting all Users
+    // Getting all Users - /api/user/
     getAllUsers(req, res) {
         User.find({})
+            .populate('thoughts')
+            .populate('friends')
             .then(usersData => res.json(usersData))
             .catch(err => {
             console.log(err);
@@ -11,7 +13,7 @@ const userController = {
         });
     },
 
-    // Get one user
+    // Get one user - /api/user/:id
     getOneUser(req, res) {
         User.findOne(
             { 
@@ -23,7 +25,7 @@ const userController = {
         });
     },
 
-    // Create a user
+    // Create a user - /api/user/
     createUser(req, res) {
         User.create(req.body).then(userData => res.json(userData)).catch(err => {
             console.log(err);
@@ -31,7 +33,7 @@ const userController = {
         });
     },
 
-    // Update a user
+    // Update a user - /api/user/:id
     updateUser(req, res) {
         User.findOneAndUpdate(
             {
@@ -55,7 +57,7 @@ const userController = {
         });
     },
 
-    // Delete a user
+    // Delete a user - /api/user/:id
     deleteUser(req, res) {
         User.findOneAndDelete(
             {
@@ -69,14 +71,45 @@ const userController = {
         });
     },
 
-    // Add a friend
+    // Add a friend - /api/user/:userID/friends/:friendID
     addFriend(req, res) {
-
+        User.findOneAndUpdate(
+            {
+                _id: req.params.userID
+            },
+            {
+                $addToSet: {
+                    friends: {
+                        _id: req.params.friendID
+                    }
+                }
+            },
+            {
+                new: true
+            }
+        ).then(userData => res.json(userData)).catch(err => {
+            console.log(err);
+            res.sendStatus(400);
+        });
     },
 
-    // Delete a friend
+    // Delete a friend - /api/user/:userID/friends/:friendID
     deleteFriend(req, res) {
-
+        console.log(req.params.userID)
+        console.log(req.params.friendID)
+        User.findOneAndUpdate(
+            {
+                _id: req.params.userID
+            },
+            {
+                $pull: {
+                    friends: req.params.friendID
+                }
+            }
+        ).then(userData => res.json(userData)).catch(err => {
+            console.log(err);
+            res.sendStatus(400);
+        });
     }
 };
 
